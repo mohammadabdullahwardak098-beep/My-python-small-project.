@@ -1,0 +1,8 @@
+def main():
+    user_string=input("Enter a string: ")
+    if user_string==user_string[::-1]:
+        print(f"user entered string is pailndrome")
+    else:
+        print("user entered string is not pailndrome")
+if __name__=="__main__":
+    main()
