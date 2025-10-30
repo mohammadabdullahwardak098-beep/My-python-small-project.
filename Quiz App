@@ -1,0 +1,19 @@
+questions=[
+    {
+        "questions":"what is the capital of Afghanistan",
+        "option":["1.Kabul","2.Logar","3.Paktia","4.Wardak"],
+        "answer":1
+    }
+]
+score=0
+for i, q in enumerate(questions,1):
+    print(f"Question {i}: {q['questions']}")
+    for opt in q['option']:
+        print(opt)
+    answer=int(input("inter the corect answer"))
+    if answer==q["answer"]:
+        print("you are correct")
+        score+=1
+    else:
+        print("you are not correct")
+print(f"\nyour score is {score/len(questions)}")
