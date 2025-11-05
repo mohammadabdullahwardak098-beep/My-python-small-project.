@@ -1,0 +1,6 @@
+weight=int(input("How many pounds does your suit case weight?"))
+if weight>100:
+    print(f"There is a 50$ surcharge for heave luggage")
+else:
+    print(f"There is a 25$ surcharge for low weight luggage")
+print(f"Thank you")
