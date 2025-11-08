@@ -1,0 +1,11 @@
+fruit_type=input("Enter fruit type:")
+if fruit_type=="Oranges":
+    print("Oranges are $0.59 a kilogram")
+elif fruit_type=="Apples":
+    print("Apples are $1.20 a kilogram")
+elif fruit_type=="banana":
+    print("Banana is $1.30 a kilogram")
+elif fruit_type=="Mango":
+    print("Mango is $1.25 a kilogram")
+else:
+    print(f"we are out of {fruit_type} ")
