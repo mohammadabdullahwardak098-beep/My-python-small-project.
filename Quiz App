@@ -1,19 +1,52 @@
+import time
 questions=[
     {
-        "questions":"what is the capital of Afghanistan",
+        "question":"what is the capital of Afghanistan?",
         "option":["1.Kabul","2.Logar","3.Paktia","4.Wardak"],
-        "answer":1
-    }
+        "answer":1,
+        "marks":5,
+        "time_limit": 20 # in seconds
+    },
+    {
+        "question":"what is the best unversity of Afghanistan?",
+        "option":["1.Kandahar","2.Nangrahr","3.Khost","4.Kabul"],
+        "answer":4,
+        "marks":3,
+        "time_limit": 40 # in seconds
+    },
+    {
+        "question":"what is the bigest high way of Afghanistan?",
+        "option":["1.Kabul-Khost","2.Kabul-Paktia","3.Kabul-Kandahar","4.Kabul-Wardak"],
+        "answer":3,
+        "marks":8,
+        "time_limit": 10 # in seconds
+    },
+    {   "question":"which Cricket player is from Afghanistan?",
+        "option":["1.Shumben Gill","2.Rashid Khan","3.Abhisek Sharma","4.Joe Root"],
+        "answer":2,
+        "marks":6,
+        "time_limit": 60 # in seconds
+    },
 ]
-score=0
-for i, q in enumerate(questions,1):
-    print(f"Question {i}: {q['questions']}")
-    for opt in q['option']:
-        print(opt)
-    answer=int(input("inter the corect answer"))
-    if answer==q["answer"]:
-        print("you are correct")
-        score+=1
+total_score = 0
+print("🧠 Welcome to the Quiz app!\n")
+for i, q in enumerate(questions, start=1):
+    print(f"Question {i}: {q['question']}")
+    for option in q["option"]:
+        print(option)
+    start_time = time.time()
+    try:
+        user_input = int(input("Your answer (1-4): "))
+    except ValueError:
+        print("Invalid input. Skipping question.\n")
+        continue
+    end_time = time.time()
+    time_taken = end_time - start_time
+    if time_taken > q["time_limit"]:
+        print(f"⏱ Time's up! You took {int(time_taken)} seconds (limit was {q['time_limit']} seconds). No marks awarded.\n")
+    elif user_input == q["answer"]:
+        total_score += q["marks"]
+        print(f"✅ Correct! You earned {q['marks']} marks.\n")
     else:
-        print("you are not correct")
-print(f"\nyour score is {score/len(questions)}")
+        print("❌ Incorrect answer. No marks awarded.\n")
+print(f"🎉 Quiz completed! Your total score is: {total_score} out of {sum(q['marks'] for q in questions)}")
