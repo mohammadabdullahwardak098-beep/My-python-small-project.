@@ -1,0 +1,183 @@
+import tkinter as tk
+import time
+import winsound  # For sound effects on Windows
+
+# ------------------ سوالات ------------------
+questions = [
+    {
+        "question": "What is the capital of Afghanistan?",
+        "options": ["Kabul", "Logar", "Paktia", "Wardak"],
+        "answer": 0,
+        "marks": 5,
+        "time_limit": 20
+    },
+    {
+        "question": "What is the best university of Afghanistan?",
+        "options": ["Kandahar", "Nangarhar", "Khost", "Kabul"],
+        "answer": 3,
+        "marks": 5,
+        "time_limit": 30
+    },
+    {
+        "question": "What is the biggest highway of Afghanistan?",
+        "options": ["Kabul-Khost", "Kabul-Paktia", "Kabul-Kandahar", "Kabul-Wardak"],
+        "answer": 2,
+        "marks": 5,
+        "time_limit": 40
+    },
+    {
+        "question": "Which cricket player is from Afghanistan?",
+        "options": ["Shubman Gill", "Mohammad Nabi", "Abhishek Sharma", "Joe Root"],
+        "answer": 1,
+        "marks": 5,
+        "time_limit": 30
+    },
+]
+
+# ------------------ متغیرهای اصلی ------------------
+total_score = 0
+current_question = -1
+time_left = 0
+timer_running = False
+blink_count = 0
+wrong_answers = []
+last_tick = 0
+
+# ------------------ رابط کاربری ------------------
+root = tk.Tk()
+root.title("Ultra Smooth Quiz Timer")
+root.geometry("700x550")
+root.config(bg="#1a1a1a")
+
+# ------------------ ویجت‌ها ------------------
+question_label = tk.Label(root, text="", font=("Arial", 20, "bold"), fg="white", bg="#1a1a1a", wraplength=650, justify="center")
+timer_label = tk.Label(root, text="", font=("DS-Digital", 60), fg="#ff2020", bg="#1a1a1a")
+buttons_frame = tk.Frame(root, bg="#1a1a1a")
+
+# ------------------ صفحه خوش‌آمدگویی ------------------
+def show_welcome():
+    welcome_frame = tk.Frame(root, bg="#1a1a1a")
+    welcome_frame.pack(expand=True)
+
+    tk.Label(welcome_frame, text="🎓 Welcome to the Ultimate Quiz!", font=("Arial", 24, "bold"), fg="white", bg="#1a1a1a").pack(pady=40)
+    tk.Label(welcome_frame, text="Test your knowledge and beat the clock!", font=("Arial", 16), fg="#cccccc", bg="#1a1a1a").pack(pady=10)
+
+    start_btn = tk.Button(welcome_frame, text="Start Quiz", font=("Arial", 18), width=20,
+                          fg="white", bg="#444444", activebackground="#ff2020",
+                          command=lambda: start_quiz(welcome_frame))
+    start_btn.pack(pady=30)
+
+def start_quiz(welcome_frame):
+    welcome_frame.destroy()
+    question_label.pack(pady=30)
+    timer_label.pack(pady=20)
+    buttons_frame.pack(pady=10)
+    next_question()
+
+# ------------------ تایمر دقیق با چشمک ------------------
+def start_timer(seconds):
+    global time_left, timer_running, blink_count, last_tick
+    time_left = seconds
+    blink_count = 0
+    timer_running = True
+    last_tick = time.perf_counter()
+    update_timer()
+
+def update_timer():
+    global time_left, blink_count, timer_running, last_tick
+
+    if not timer_running:
+        return
+
+    now = time.perf_counter()
+    if now - last_tick >= 1:
+        last_tick = now
+        if time_left > 0:
+            time_left -= 1
+        else:
+            timer_running = False
+            winsound.Beep(600, 300)  # 🔔 Time expired
+            handle_no_answer()
+            return
+
+    colon_visible = (blink_count % 2 == 0)
+    mins = time_left // 60
+    secs = time_left % 60
+    time_str = f"{mins:02d}:{secs:02d}" if colon_visible else f"{mins:02d} {secs:02d}"
+    timer_label.config(text=time_str)
+
+    blink_count = (blink_count + 1) % 6
+    root.after(1000 // 6, update_timer)
+
+# ------------------ مدیریت پاسخ ------------------
+def select_answer(idx):
+    global total_score, timer_running
+    timer_running = False
+    q = questions[current_question]
+    correct = idx == q["answer"]
+    if correct:
+        total_score += q["marks"]
+        winsound.Beep(800, 200)  # ✅ Correct
+    else:
+        winsound.Beep(300, 300)  # ❌ Wrong
+        wrong_answers.append({
+            "question": q["question"],
+            "your_answer": q["options"][idx],
+            "correct_answer": q["options"][q["answer"]]
+        })
+    show_feedback(correct)
+    root.after(1000, next_question)
+
+def handle_no_answer():
+    q = questions[current_question]
+    wrong_answers.append({
+        "question": q["question"],
+        "your_answer": "No Answer",
+        "correct_answer": q["options"][q["answer"]]
+    })
+    show_feedback(False)
+    root.after(1000, next_question)
+
+def show_feedback(correct):
+    for widget in buttons_frame.winfo_children():
+        widget.config(bg="#228B22" if correct else "#8B0000")
+
+# ------------------ سوال بعدی ------------------
+def next_question():
+    global current_question
+    for widget in buttons_frame.winfo_children():
+        widget.destroy()
+
+    current_question += 1
+    if current_question >= len(questions):
+        show_results()
+        return
+
+    q = questions[current_question]
+    question_label.config(text=q["question"])
+    for i, opt in enumerate(q["options"]):
+        btn = tk.Button(buttons_frame, text=opt, font=("Arial", 16), width=30,
+                        fg="white", bg="#333333", activebackground="#ff2020",
+                        activeforeground="white", command=lambda i=i: select_answer(i))
+        btn.pack(pady=5)
+    start_timer(q["time_limit"])
+
+# ------------------ نمایش نتایج ------------------
+def show_results():
+    emoji = "🏆" if total_score >= 15 else "👍" if total_score >= 10 else "🙂"
+    question_label.config(text=f"{emoji} Quiz Finished! Total Score = {total_score}")
+    timer_label.config(text="")
+    for widget in buttons_frame.winfo_children():
+        widget.destroy()
+
+    if wrong_answers:
+        result_frame = tk.Frame(root, bg="#1a1a1a")
+        result_frame.pack(pady=20)
+        tk.Label(result_frame, text="❌ Wrong Answers:", font=("Arial", 16, "bold"), fg="#ff5555", bg="#1a1a1a").pack()
+        for wa in wrong_answers:
+            text = f"Q: {wa['question']}\nYour Answer: {wa['your_answer']} | Correct: {wa['correct_answer']}\n"
+            tk.Label(result_frame, text=text, font=("Arial", 14), fg="white", bg="#1a1a1a", justify="left").pack(pady=5)
+
+# ------------------ شروع ------------------
+show_welcome()
+root.mainloop()
