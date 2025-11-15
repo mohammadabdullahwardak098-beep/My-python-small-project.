@@ -1,38 +1,39 @@
 import time
-questions=[
+questions = [
     {
-        "question":"what is the capital of Afghanistan?",
-        "option":["1.Kabul","2.Logar","3.Paktia","4.Wardak"],
-        "answer":1,
-        "marks":5,
-        "time_limit": 20 # in seconds
+        "question": "بزرگترین کوه افغانستان کدام است؟",
+        "options": ["کوه های هندوکش", "کوه بابا", "کوه سپین غر", "کوه پغمان"],
+        "answer": 0,
+        "marks": 5,
+        "time_limit": 20
     },
     {
-        "question":"what is the best unversity of Afghanistan?",
-        "option":["1.Kandahar","2.Nangrahr","3.Khost","4.Kabul"],
-        "answer":4,
-        "marks":3,
-        "time_limit": 40 # in seconds
+        "question": "پوهنتونونه په کوم وزارت پوری تړاو لری؟",
+        "options": ["د پوهنی وزارت", "د مالی وزارت", "د لوړو زده کړو وزارت", "د کورنیو چارو وزارت"],
+        "answer": 2,
+        "marks": 5,
+        "time_limit": 30
     },
     {
-        "question":"what is the bigest high way of Afghanistan?",
-        "option":["1.Kabul-Khost","2.Kabul-Paktia","3.Kabul-Kandahar","4.Kabul-Wardak"],
-        "answer":3,
-        "marks":8,
-        "time_limit": 10 # in seconds
+        "question": "بزرګترین شاهراه افغانستان کدام است؟",
+        "options": ["کابل-خوست", "کابل-مزار", "کابل-کندهار", "کابل-کندز"],
+        "answer": 2,
+        "marks": 5,
+        "time_limit": 40
     },
-    {   "question":"which Cricket player is from Afghanistan?",
-        "option":["1.Shumben Gill","2.Rashid Khan","3.Abhisek Sharma","4.Joe Root"],
-        "answer":2,
-        "marks":6,
-        "time_limit": 60 # in seconds
+    {
+        "question": "په لاندی هیوادونو کی کوم د افغانستان ګاونډی هیوادونه دی؟",
+        "options": ["ازبکستان", "ایران", "تاجیکستان", "ټول سم دی"],
+        "answer": 3,
+        "marks": 5,
+        "time_limit": 30
     },
 ]
 total_score = 0
 print("🧠 Welcome to the Quiz app!\n")
 for i, q in enumerate(questions, start=1):
     print(f"Question {i}: {q['question']}")
-    for option in q["option"]:
+    for option in q["options"]:
         print(option)
     start_time = time.time()
     try:
@@ -50,3 +51,4 @@ for i, q in enumerate(questions, start=1):
     else:
         print("❌ Incorrect answer. No marks awarded.\n")
 print(f"🎉 Quiz completed! Your total score is: {total_score} out of {sum(q['marks'] for q in questions)}")
+1
