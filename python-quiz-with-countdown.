@@ -5,30 +5,30 @@ import winsound  # For sound effects on Windows
 # ------------------ سوالات ------------------
 questions = [
     {
-        "question": "What is the capital of Afghanistan?",
-        "options": ["Kabul", "Logar", "Paktia", "Wardak"],
+        "question": "بزرگترین کوه افغانستان کدام است؟",
+        "options": ["کوه های هندوکش", "کوه بابا", "کوه سپین غر", "کوه پغمان"],
         "answer": 0,
         "marks": 5,
         "time_limit": 20
     },
     {
-        "question": "What is the best university of Afghanistan?",
-        "options": ["Kandahar", "Nangarhar", "Khost", "Kabul"],
-        "answer": 3,
+        "question": "پوهنتونونه په کوم وزارت پوری تړاو لری؟",
+        "options": ["د پوهنی وزارت", "د مالی وزارت", "د لوړو زده کړو وزارت", "د کورنیو چارو وزارت"],
+        "answer": 2,
         "marks": 5,
         "time_limit": 30
     },
     {
-        "question": "What is the biggest highway of Afghanistan?",
-        "options": ["Kabul-Khost", "Kabul-Paktia", "Kabul-Kandahar", "Kabul-Wardak"],
+        "question": "بزرګترین شاهراه افغانستان کدام است؟",
+        "options": ["کابل-خوست", "کابل-مزار", "کابل-کندهار", "کابل-کندز"],
         "answer": 2,
         "marks": 5,
         "time_limit": 40
     },
     {
-        "question": "Which cricket player is from Afghanistan?",
-        "options": ["Shubman Gill", "Mohammad Nabi", "Abhishek Sharma", "Joe Root"],
-        "answer": 1,
+        "question": "په لاندی هیوادونو کی کوم د افغانستان ګاونډی هیوادونه دی؟",
+        "options": ["ازبکستان", "ایران", "تاجیکستان", "ټول سم دی"],
+        "answer": 3,
         "marks": 5,
         "time_limit": 30
     },
